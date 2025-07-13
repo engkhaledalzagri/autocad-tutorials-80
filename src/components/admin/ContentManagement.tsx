@@ -58,11 +58,11 @@ const ContentManagement = () => {
   };
 
   const handleViewContent = (content: any) => {
-    console.log('Viewing content:', content);
+    // TODO: Implement content viewing
   };
 
   const handleDeleteContent = (content: any) => {
-    console.log('Deleting content:', content);
+    // TODO: Implement content deletion
   };
 
   return (
@@ -91,7 +91,7 @@ const ContentManagement = () => {
             setEditingContent(null);
           }}
           onSave={(data) => {
-            console.log('Saving content:', data);
+            // TODO: Implement content saving
             setShowForm(false);
             setEditingContent(null);
           }}

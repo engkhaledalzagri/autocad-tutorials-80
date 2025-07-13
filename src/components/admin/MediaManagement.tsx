@@ -20,16 +20,12 @@ const MediaManagement = () => {
 
   const loadMediaFiles = async () => {
     try {
-      console.log('Loading media files for category:', selectedType);
       const { data, error } = await getMediaFiles(selectedType);
       if (error) {
-        console.error('Error loading media files:', error);
         throw error;
       }
-      console.log('Loaded media files:', data);
       setMediaFiles(data || []);
     } catch (error) {
-      console.error('Error loading media files:', error);
       toast({
         title: "تنبيه",
         description: "تم تحميل البيانات التجريبية - لم يتم تكوين Supabase",

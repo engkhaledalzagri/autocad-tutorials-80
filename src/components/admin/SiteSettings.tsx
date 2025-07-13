@@ -38,7 +38,7 @@ const SiteSettings = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Saving settings:', settings);
+    // TODO: Implement settings saving
     toast({
       title: "تم حفظ الإعدادات",
       description: "تم حفظ إعدادات الموقع بنجاح",

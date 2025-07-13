@@ -18,7 +18,6 @@ const FileUpload: React.FC<FileUploadProps> = ({ onUploadComplete }) => {
   const { user } = useAuth();
 
   const getFileCategory = (file: File): string => {
-    console.log('Determining category for file:', file.name, 'type:', file.type);
     if (file.type.startsWith('image/')) return 'image';
     if (file.type.startsWith('video/')) return 'video';
     if (file.type.includes('pdf') || file.type.includes('document') || file.type.includes('text')) return 'document';
@@ -28,11 +27,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ onUploadComplete }) => {
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files || files.length === 0) {
-      console.log('No files selected');
       return;
     }
-
-    console.log('Starting file upload for', files.length, 'files');
     
     // Check if Supabase is configured
     if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
@@ -48,12 +44,10 @@ const FileUpload: React.FC<FileUploadProps> = ({ onUploadComplete }) => {
     setIsUploading(true);
     const uploadPromises = Array.from(files).map(async (file) => {
       try {
-        console.log('Uploading file:', file.name);
         setUploadProgress(prev => ({ ...prev, [file.name]: 0 }));
         
         // Get file category
         const category = getFileCategory(file);
-        console.log('File category:', category);
         
         // Upload to Supabase Storage
         const { data: uploadData, error: uploadError } = await uploadFile(file, category);
@@ -66,7 +60,6 @@ const FileUpload: React.FC<FileUploadProps> = ({ onUploadComplete }) => {
 
         // Get public URL
         const fileUrl = getFileUrl(uploadData.path);
-        console.log('File URL generated:', fileUrl);
         
         // Save metadata to database
         const fileMetadata = {
@@ -80,7 +73,6 @@ const FileUpload: React.FC<FileUploadProps> = ({ onUploadComplete }) => {
           uploaded_by: user?.email || 'anonymous',
         };
 
-        console.log('Saving file metadata:', fileMetadata);
         const { data: dbData, error: dbError } = await saveFileMetadata(fileMetadata);
         if (dbError) {
           console.error('Database error:', dbError);
@@ -88,7 +80,6 @@ const FileUpload: React.FC<FileUploadProps> = ({ onUploadComplete }) => {
         }
 
         setUploadProgress(prev => ({ ...prev, [file.name]: 100 }));
-        console.log('File uploaded successfully:', file.name);
         
         return { success: true, file: file.name };
       } catch (error) {
@@ -102,7 +93,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onUploadComplete }) => {
       const successful = results.filter(r => r.success).length;
       const failed = results.filter(r => !r.success).length;
 
-      console.log('Upload results:', { successful, failed });
+      
 
       if (successful > 0) {
         toast({
@@ -114,7 +105,6 @@ const FileUpload: React.FC<FileUploadProps> = ({ onUploadComplete }) => {
 
       if (failed > 0) {
         const failedFiles = results.filter(r => !r.success);
-        console.error('Failed uploads:', failedFiles);
         toast({
           title: "خطأ في الرفع",
           description: `فشل رفع ${failed} ملف - تحقق من اتصال الإنترنت وإعدادات Supabase`,

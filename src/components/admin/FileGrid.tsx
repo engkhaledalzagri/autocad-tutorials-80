@@ -50,7 +50,6 @@ const FileGrid: React.FC<FileGridProps> = ({ mediaFiles, onDeleteComplete }) => 
     }
 
     try {
-      console.log('Deleting file:', file.name);
       const filePath = file.file_url.split('/').slice(-2).join('/'); // Extract path from URL
       const { success, error } = await deleteFile(file.id, filePath);
       
