@@ -23,7 +23,8 @@ const Header = () => {
               الرئيسية
             </Link>
             <Link to="/tutorials" className="text-foreground hover:text-primary">
-          </Link>
+              الدروس
+            </Link>
             <Link to="/videos" className="text-foreground hover:text-primary">
               الفيديوهات
             </Link>
