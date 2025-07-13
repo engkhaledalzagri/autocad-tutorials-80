@@ -41,12 +41,12 @@ const RegisterPage = () => {
   const onSubmit = async (data: RegisterFormData) => {
     setIsLoading(true);
     
-    const { error } = await signUp(data.email, data.password);
+    const { success, error } = await signUp(data.email, data.password);
     
-    if (!error) {
+    if (success) {
       navigate('/login');
     } else {
-      setError('root', { message: typeof error === 'string' ? error : 'فشل في إنشاء الحساب' });
+      setError('root', { message: error || 'فشل في إنشاء الحساب' });
     }
     
     setIsLoading(false);
